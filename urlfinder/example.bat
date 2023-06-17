@@ -1,0 +1,1 @@
+urlfinder.py ../data/urls.txt -p de.wikipedia.org/wiki/ -s https://de.wikipedia.org/wiki/Infimum_und_Supremum
