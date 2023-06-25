@@ -1,4 +1,5 @@
 import argparse
+import os
 from bs4 import BeautifulSoup
 
 
@@ -10,7 +11,6 @@ def extract(source, destination, tags, attrs):
         for element in soup.find_all(tag, attrs):
             if(element.string == None):
                 continue
-            print(element.string)
             destination.write(element.get_text(strip=True) + "\n")
 
 
@@ -24,6 +24,7 @@ if (__name__ == "__main__"):
     group = argParser.add_mutually_exclusive_group(required=True)
     group.add_argument('-i', '--inputs', nargs='+')     #list of paths
     group.add_argument('-f', '--inputfile', type=open)  #file with a list of paths
+    group.add_argument('-d', '--inputdirectory')
 
     args = argParser.parse_args()
     output = open(args.outputfile, mode='a+')
@@ -35,12 +36,18 @@ if (__name__ == "__main__"):
             key,val = attr.split("=")
             attrs[key] = val
 
+
     f = args.inputfile
-    if(f != None):
+    if f != None:
         for line in f:
             line.rstrip()
             extract(line, output, tags, attrs)
+
+    elif args.inputs != None:
+        inputs = args.inputs
+        for i in inputs:
+            extract(i, output, tags, attrs)
     
-    inputs = args.inputs
-    for i in inputs:
-        extract(i, output, tags, attrs)
+    else:
+        for file in os.listdir(args.inputdirectory):
+            extract(args.inputdirectory + file, output, tags, attrs)

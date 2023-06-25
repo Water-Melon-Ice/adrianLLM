@@ -2,6 +2,7 @@ import argparse
 import requests
 import time
 from urllib.parse import urlparse
+import os
 
 chars = ".-_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -13,9 +14,10 @@ def makeFilename(url):
 
 def fixScheme(url):
     if not url.startswith("http"):
-        return "http://" + url
-    else:
-        return url
+        url = "http://" + url
+    
+    url = url.rstrip()
+    return url
 
 def getPage(url, out):
     
@@ -24,6 +26,7 @@ def getPage(url, out):
 
     url = fixScheme(url)
 
+    print(url)
     page = requests.get(url)
 
     output.write(page.text)
@@ -40,6 +43,9 @@ if (__name__ == "__main__"):
 
     args = argParser.parse_args()
 
+    if not os.path.exists(args.outputfolder):
+        os.makedirs(args.outputfolder)
+
     f = args.inputfile
     if(f != None):
         for line in f:
@@ -47,9 +53,9 @@ if (__name__ == "__main__"):
             getPage(line, args.outputfolder)
             if(args.delay != None):
                 time.sleep(args.delay)
-    
-    inputs = args.inputs
-    for i in inputs:
-        getPage(i, args.outputfolder)
-        if(args.delay != None):
-            time.sleep(args.delay)
+    else:
+        inputs = args.inputs
+        for i in inputs:
+            getPage(i, args.outputfolder)
+            if(args.delay != None):
+                time.sleep(args.delay)
