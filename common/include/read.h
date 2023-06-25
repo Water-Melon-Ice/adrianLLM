@@ -12,9 +12,8 @@ namespace adrianllm
 	public:
 		Reader(int, std::string);
 		~Reader();
-		std::string read(std::string*);
+		std::string read(std::string*, int);
 		int find(std::string&);
-		int findNull();
 
 	private:
 		std::string filename;

@@ -7,6 +7,14 @@ using namespace std;
 
 int main()
 {
-	cout << "Hello CMake." << endl;
-	return 0;
+	vector<string> vec;
+	vec.push_back("elements");
+	for (int i = 0; i < 10; i++)
+	{
+		adrianllm::Reader reader(30, "test.txt");
+		string read = reader.read(&vec[0], vec.size());
+		std::cout << read;
+		vec.push_back(read);
+	}
+
 }
