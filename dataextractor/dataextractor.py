@@ -1,6 +1,7 @@
 import argparse
 import os
 from bs4 import BeautifulSoup
+import sys
 
 
 def extract(source, destination, tags, attrs):
@@ -11,7 +12,7 @@ def extract(source, destination, tags, attrs):
         for element in soup.find_all(tag, attrs):
             if(element.string == None):
                 continue
-            destination.write(element.get_text(strip=True) + "\n")
+            destination.write((element.get_text(strip=True) + "\n").encode().decode('ascii', 'ignore'))
 
 
 if (__name__ == "__main__"):

@@ -22,7 +22,7 @@ namespace adrianllm {
 			return "";
 
 		int currentlength = -1;
-		std::string currans;
+		std::vector<std::string> currans;
 
 		std::string line;
 		while (std::getline(file, line)) //Line DOES contain Null bytes
@@ -45,10 +45,14 @@ namespace adrianllm {
 			if (templength > currentlength)
 			{
 				currentlength = templength;
-				currans = vec[vec.size() - 1];
+				currans.clear();
+			}
+			if (templength == currentlength)
+			{
+				currans.push_back(vec[vec.size() - 1]);
 			}
 		}
-		return currans;
+		return currans.at(std::rand() % currans.size());
 	}
 
 	int Reader::find(std::string& word)

@@ -1,0 +1,1 @@
+scraper.py ../data/scraped/ -f ../data/urls.txt
